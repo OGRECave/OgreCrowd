@@ -44,10 +44,10 @@
   **/
 
 // recast/detour stuff
-#include "Recast/Recast.h"
-#include "Detour/DetourNavMesh.h"
-#include "Detour/DetourNavMeshBuilder.h"
-#include "Detour/DetourNavMeshQuery.h"
+#include "Recast.h"
+#include "DetourNavMesh.h"
+#include "DetourNavMeshBuilder.h"
+#include "DetourNavMeshQuery.h"
 
 #define MAX_PATHSLOT      128 // how many paths we can store
 #define MAX_PATHPOLY      256 // max number of polygons in a path

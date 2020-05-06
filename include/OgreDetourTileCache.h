@@ -38,10 +38,10 @@
 
 #include <Ogre.h>
 #include "OgreRecast.h"
-#include "DetourTileCache/DetourTileCacheBuilder.h"
-#include "DetourTileCache/DetourTileCache.h"
-#include "Detour/DetourCommon.h"
-#include "RecastContrib/fastlz/fastlz.h"
+#include "DetourTileCacheBuilder.h"
+#include "DetourTileCache.h"
+#include "DetourCommon.h"
+#include "fastlz.h"
 #include "RecastInputGeom.h"
 
 const float TEMP_OBSTACLE_RADIUS = 1.0f;

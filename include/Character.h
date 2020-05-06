@@ -38,7 +38,7 @@
 
 #include <Ogre.h>
 #include "OgreDetourCrowd.h"
-#include "DetourCrowd/DetourCrowd.h"
+#include "DetourCrowd.h"
 #include "OgreDetourTileCache.h"
 
 class OgreRecastApplication;    //Advance declaration

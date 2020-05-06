@@ -1,26 +1,16 @@
-OgreCrowd is a set of libraries for integrating the Recast navigation library 
-(http://code.google.com/p/recastnavigation) with Ogre3D (http://www.ogre3d.org).
+OgreCrowd is a set of libraries for integrating the [Recast navigation library](https://github.com/recastnavigation/recastnavigation) with [Ogre3D](http://www.ogre3d.org).
 It allows to create interactive crowds of characters in a 3D scene.
 
-By Duststorm, thanks to the snippets from mkultra333 (http://www.ogre3d.org/forums/viewtopic.php?f=5&t=62079) and Paul Wilson (http://www.ogre3d.org/forums/viewtopic.php?f=11&t=57487).
-
-Works with Ogre 1.7 and 1.8 and Recast 1.4 (svn revision 345)
-
-
-See the Ogre3D forum thread for more info:
-http://www.ogre3d.org/forums/viewtopic.php?f=11&t=69781
+By Duststorm, thanks to the snippets from [mkultra333](http://www.ogre3d.org/forums/viewtopic.php?f=5&t=62079) and [Paul Wilson](http://www.ogre3d.org/forums/viewtopic.php?f=11&t=57487).
 
 
 More information:
 -----------------
 
-http://www.ogre3d.org/forums/viewtopic.php?f=11&t=69781
-http://www.ogre3d.org/forums/viewtopic.php?f=16&t=52455
-http://www.ogre3d.org/forums/viewtopic.php?f=5&t=62079
-http://www.ogre3d.org/forums/viewtopic.php?f=11&t=57487
-
-Recast project page:
-http://code.google.com/p/recastnavigation
+- http://www.ogre3d.org/forums/viewtopic.php?f=11&t=69781
+- http://www.ogre3d.org/forums/viewtopic.php?f=16&t=52455
+- http://www.ogre3d.org/forums/viewtopic.php?f=5&t=62079
+- http://www.ogre3d.org/forums/viewtopic.php?f=11&t=57487
 
 Recast developers blog:
 http://digestingduck.blogspot.com

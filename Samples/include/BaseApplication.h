@@ -31,14 +31,15 @@ This source file is part of the
 #include <OISKeyboard.h>
 #include <OISMouse.h>
 
-#include <SdkTrays.h>
-#include <SdkCameraMan.h>
+#include <OgreTrays.h>
+#include <OgreCameraMan.h>
+#include <OgreWindowEventUtilities.h>
 
 /**
   * Practically unchanged (except for some minor details) version of the Ogre3d sample
   * application framework baseclass.
   **/
-class BaseApplication : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener, public OIS::MouseListener, OgreBites::SdkTrayListener
+class BaseApplication : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener, public OIS::MouseListener, OgreBites::TrayListener
 {
 public:
     BaseApplication(void);
@@ -95,8 +96,8 @@ protected:
     Ogre::String mPluginsCfg;
 
     // OgreBites
-    OgreBites::SdkTrayManager* mTrayMgr;
-    OgreBites::SdkCameraMan* mCameraMan;       // basic camera controller
+    OgreBites::TrayManager* mTrayMgr;
+    OgreBites::CameraMan* mCameraMan;       // basic camera controller
     OgreBites::ParamsPanel* mDetailsPanel;     // sample details panel
     bool mCursorWasVisible;                    // was cursor visible before dialog appeared
     bool mShutDown;

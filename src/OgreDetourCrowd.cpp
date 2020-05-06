@@ -35,7 +35,7 @@
 
 #include "Ogre.h"
 #include "OgreDetourCrowd.h"
-#include "Detour/DetourCommon.h"
+#include "DetourCommon.h"
 
 
 OgreDetourCrowd::OgreDetourCrowd(OgreRecast *recast)
@@ -78,7 +78,7 @@ OgreDetourCrowd::OgreDetourCrowd(OgreRecast *recast)
                     crowd->init(MAX_AGENTS, m_recast->getAgentRadius(), nav);
 
                     // Make polygons with 'disabled' flag invalid.
-                    crowd->getEditableFilter()->setExcludeFlags(SAMPLE_POLYFLAGS_DISABLED);
+                    crowd->getEditableFilter(0)->setExcludeFlags(SAMPLE_POLYFLAGS_DISABLED);
 
 
                     // Create different avoidance settings presets. The crowd object can store multiple, identified by an index number.
@@ -295,7 +295,7 @@ void OgreDetourCrowd::setMoveTarget(Ogre::Vector3 position, bool adjust)
         // Find nearest point on navmesh and set move request to that location.
         dtNavMeshQuery* navquery = m_recast->m_navQuery;
         dtCrowd* crowd = m_crowd;
-        const dtQueryFilter* filter = crowd->getFilter();
+        const dtQueryFilter* filter = crowd->getFilter(0);
         const float* ext = crowd->getQueryExtents();
         float p[3];
         OgreRecast::OgreVect3ToFloatA(position, p);
@@ -332,7 +332,7 @@ void OgreDetourCrowd::setMoveTarget(int agentId, Ogre::Vector3 position, bool ad
     // Find nearest point on navmesh and set move request to that location.
     dtNavMeshQuery* navquery = m_recast->m_navQuery;
     dtCrowd* crowd = m_crowd;
-    const dtQueryFilter* filter = crowd->getFilter();
+    const dtQueryFilter* filter = crowd->getFilter(0);
     const float* ext = crowd->getQueryExtents();
     float p[3];
     OgreRecast::OgreVect3ToFloatA(position, p);

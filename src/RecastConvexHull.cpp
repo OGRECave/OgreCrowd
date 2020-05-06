@@ -35,7 +35,7 @@
 
 #include "RecastConvexHull.h"
 #include "RecastInputGeom.h"
-#include "Recast/Recast.h"
+#include "Recast.h"
 #include "OgreRecastDefinitions.h"
 #include "OgreRecast.h"
 

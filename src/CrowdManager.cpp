@@ -33,7 +33,7 @@
 
 */
 
-#include "include/CrowdManager.h"
+#include "CrowdManager.h"
 #include "OgreDetourCrowd.h"
 #include "Character.h"
 #include "AnimateableCharacter.h"

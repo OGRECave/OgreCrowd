@@ -55,8 +55,8 @@
 
 */
 
-#include "include/OgreRecastNavmeshPruner.h"
-#include "Detour/DetourAssert.h"
+#include "OgreRecastNavmeshPruner.h"
+#include "DetourAssert.h"
 
 
 // TODO implement drawing funtions to allow coloring of navmesh
