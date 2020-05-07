@@ -1,6 +1,8 @@
 OgreCrowd is a set of libraries for integrating the [Recast navigation library](https://github.com/recastnavigation/recastnavigation) with [Ogre3D](http://www.ogre3d.org).
 It allows to create interactive crowds of characters in a 3D scene.
 
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/gYnfWx4cBEs/0.jpg)](https://www.youtube.com/watch?v=gYnfWx4cBEs)
+
 By Duststorm, thanks to the snippets from [mkultra333](http://www.ogre3d.org/forums/viewtopic.php?f=5&t=62079) and [Paul Wilson](http://www.ogre3d.org/forums/viewtopic.php?f=11&t=57487).
 
 
