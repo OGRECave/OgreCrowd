@@ -31,9 +31,10 @@ INSTALL(TARGETS OgreCrowd
   ARCHIVE DESTINATION lib)
 
 if(BUILD_DEMO)
-  file(COPY ${OGRE_CONFIG_DIR}/plugins.cfg DESTINATION ${PROJECT_SOURCE_DIR})
+  file(COPY OgreRecast.cfg DESTINATION ${PROJECT_BINARY_DIR})
+  configure_file(resources.cfg.in ${PROJECT_BINARY_DIR}/resources.cfg)
 
   file(GLOB democpp "${PROJECT_SOURCE_DIR}/Samples/src/*.cpp")
   add_executable(OgreCrowdDemo ${democpp})
-  target_link_libraries(OgreCrowdDemo OgreCrowd OIS)
+  target_link_libraries(OgreCrowdDemo OgreCrowd)
 endif()

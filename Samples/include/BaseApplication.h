@@ -27,85 +27,43 @@ This source file is part of the
 #include <OgreConfigFile.h>
 
 #include <OISEvents.h>
-#include <OISInputManager.h>
 #include <OISKeyboard.h>
 #include <OISMouse.h>
 
+#include <OgreApplicationContext.h>
 #include <OgreTrays.h>
 #include <OgreCameraMan.h>
-#include <OgreWindowEventUtilities.h>
+#include <OgreAdvancedRenderControls.h>
 
-/**
-  * Practically unchanged (except for some minor details) version of the Ogre3d sample
-  * application framework baseclass.
-  **/
-class BaseApplication : public Ogre::FrameListener, public Ogre::WindowEventListener, public OIS::KeyListener, public OIS::MouseListener, OgreBites::TrayListener
+class BaseApplication : public OgreBites::ApplicationContext, public OgreBites::InputListener
 {
 public:
     BaseApplication(void);
     virtual ~BaseApplication(void);
 
-    virtual void go(void);
-
-    /**
-      * Set to true to prevent the application from locking/grabbing the mouse when stopping at breakpoints using
-      * a debugger. Probably only useful on linux and MAX OS.
-      **/
-    static bool DISABLE_MOUSE_GRAB;
-
-    /**
-      * Set to true to restore config from ogre.cfg if it is found. Set to false to always pop up the configuration window.
-      **/
-    static bool RESTORE_CONFIG;
+    void go(void);
 
 protected:
-    virtual bool setup();
-    virtual bool configure(void);
+    void setup() override;
     virtual void chooseSceneManager(void);
     virtual void createCamera(void);
     virtual void createFrameListener(void);
     virtual void createScene(void) = 0; // Override me!
     virtual void destroyScene(void);
     virtual void createViewports(void);
-    virtual void setupResources(void);
-    virtual void createResourceListener(void);
-    virtual void loadResources(void);
 
-    // Ogre::FrameListener
-    virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+    bool keyPressed(const OgreBites::KeyboardEvent &evt) override;
 
-    // OIS::KeyListener
-    virtual bool keyPressed( const OIS::KeyEvent &arg );
-    virtual bool keyReleased( const OIS::KeyEvent &arg );
-    // OIS::MouseListener
-    virtual bool mouseMoved( const OIS::MouseEvent &arg );
-    virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
-    virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
-
-    // Ogre::WindowEventListener
-    //Adjust mouse clipping area
-    virtual void windowResized(Ogre::RenderWindow* rw);
-    //Unattach OIS before window shutdown (very important under Linux)
-    virtual void windowClosed(Ogre::RenderWindow* rw);
-
-    Ogre::Root *mRoot;
     Ogre::Camera* mCamera;
+    Ogre::SceneNode* mCameraNode;
     Ogre::SceneManager* mSceneMgr;
-    Ogre::RenderWindow* mWindow;
-    Ogre::String mResourcesCfg;
-    Ogre::String mPluginsCfg;
 
     // OgreBites
     OgreBites::TrayManager* mTrayMgr;
     OgreBites::CameraMan* mCameraMan;       // basic camera controller
-    OgreBites::ParamsPanel* mDetailsPanel;     // sample details panel
+    OgreBites::AdvancedRenderControls* mControls;   
     bool mCursorWasVisible;                    // was cursor visible before dialog appeared
     bool mShutDown;
-
-    //OIS Input devices
-    OIS::InputManager* mInputManager;
-    OIS::Mouse*    mMouse;
-    OIS::Keyboard* mKeyboard;
 };
 
 #endif // #ifndef __BaseApplication_h_

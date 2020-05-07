@@ -36,7 +36,6 @@
 #ifndef CROWDMANAGER_H
 #define CROWDMANAGER_H
 
-#include <OIS.h>
 #include <Ogre.h>
 
 class Character;

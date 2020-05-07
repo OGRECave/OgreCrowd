@@ -34,6 +34,7 @@
 */
 
 #include "SettingsFileParser.h"
+#include <iostream>
 
 SettingsFileParser::SettingsFileParser(Ogre::String filePath)
     : mFilePath(filePath)

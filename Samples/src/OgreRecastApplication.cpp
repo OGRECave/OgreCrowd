@@ -60,6 +60,8 @@ This source file is part of the
 #include "OgreRecastPagedCrowdApplication.h"
 #include "CrowdManager.h"
 
+#include <iostream>
+
 
 //--- SETTINGS ------------------------------------------------------------------------
 
@@ -126,8 +128,8 @@ void OgreRecastApplication::createScene(void)
     mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5f, 0.5f, 0.5f));
     Ogre::Light* light = mSceneMgr->createLight( "MainLight" );
     light->setPosition(20, 80, 50);
-    mCamera->setPosition(-46.3106, 62.3307, 40.7579);
-    mCamera->setOrientation(Ogre::Quaternion(0.903189, -0.247085, - 0.338587, - 0.092626));
+    mCameraNode->setPosition(-46.3106, 62.3307, 40.7579);
+    mCameraNode->setOrientation(Ogre::Quaternion(0.903189, -0.247085, - 0.338587, - 0.092626));
 
     // Set the default ray query mask for any created scene object
     Ogre::MovableObject::setDefaultQueryFlags(DEFAULT_MASK);
@@ -296,7 +298,7 @@ void OgreRecastApplication::createScene(void)
     node->attachObject(mChaseCam);
     mChaseCam->setPosition(0, mDetourCrowd->getAgentHeight(), mDetourCrowd->getAgentRadius()*4);
     mChaseCam->pitch(Ogre::Degree(-15));
-    Ogre::Viewport *vp = mWindow->getViewport(0);
+    Ogre::Viewport *vp = getRenderWindow()->getViewport(0);
     mChaseCam->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
 }
 
@@ -384,8 +386,6 @@ void OgreRecastApplication::createFrameListener()
 {
     BaseApplication::createFrameListener();
 
-    // CREATE INFO LABEL
-    Ogre::FontManager::getSingleton().getByName("SdkTrays/Caption")->load();    // Fixes a bug with SDK Trays
     mLabelOverlay = mTrayMgr->createLabel(OgreBites::TL_TOPLEFT, "infoLabel", "Simple navigation", 220);
     mLabelOverlay->show();
     OgreBites::Label *label = mTrayMgr->createLabel(OgreBites::TL_TOPRIGHT, "titleLabel", "Recast & Detour Demo", 250);
@@ -432,7 +432,7 @@ bool OgreRecastApplication::mousePressed( const OIS::MouseEvent &arg, OIS::Mouse
         }
     }
 
-    return BaseApplication::mousePressed(arg, id);
+    return true;
 }
 
 bool OgreRecastApplication::mouseMoved(const OIS::MouseEvent &arg)
@@ -443,7 +443,7 @@ bool OgreRecastApplication::mouseMoved(const OIS::MouseEvent &arg)
         return true;
     }
 
-    return BaseApplication::mouseMoved(arg);
+    return true;
 }
 
 bool OgreRecastApplication::keyPressed( const OIS::KeyEvent &arg )
@@ -483,7 +483,7 @@ bool OgreRecastApplication::keyPressed( const OIS::KeyEvent &arg )
                 setPathAndBeginMarkerVisibility(false);
                 mLabelOverlay->setCaption("Random crowd wander");
                 mCrosshair->show();
-                mWindow->getViewport(0)->setCamera(mCamera);
+                getRenderWindow()->getViewport(0)->setCamera(mCamera);
                 break;
             case CROWD_WANDER:      // Wander -> chase
                 mApplicationState = FOLLOW_TARGET;
@@ -491,7 +491,7 @@ bool OgreRecastApplication::keyPressed( const OIS::KeyEvent &arg )
                 setPathAndBeginMarkerVisibility(false);
                 mLabelOverlay->setCaption("Chase");
                 mCrosshair->show();
-                mWindow->getViewport(0)->setCamera(mCamera);
+                getRenderWindow()->getViewport(0)->setCamera(mCamera);
                 break;
             case FOLLOW_TARGET:     // Chase -> steer
                 mApplicationState = STEER_AGENT;
@@ -508,7 +508,7 @@ bool OgreRecastApplication::keyPressed( const OIS::KeyEvent &arg )
                     mLabelOverlay->setCaption("Steer agent");
                 }
                 mCrosshair->hide(); // Hide crosshair
-                mWindow->getViewport(0)->setCamera(mChaseCam);  // Set chase camera on first agent
+                getRenderWindow()->getViewport(0)->setCamera(mChaseCam);  // Set chase camera on first agent
                 break;
             case STEER_AGENT:       // Steer -> simple
                 mApplicationState = SIMPLE_PATHFIND;
@@ -518,7 +518,7 @@ bool OgreRecastApplication::keyPressed( const OIS::KeyEvent &arg )
                 UpdateAllAgentDestinations();   // Reinitialize path that all agents follow and steer them towards end marker
                 mLabelOverlay->setCaption("Simple navigation");
                 mCrosshair->show();
-                mWindow->getViewport(0)->setCamera(mCamera);
+                getRenderWindow()->getViewport(0)->setCamera(mCamera);
                 break;
             default:
                 mApplicationState = SIMPLE_PATHFIND;
@@ -526,7 +526,7 @@ bool OgreRecastApplication::keyPressed( const OIS::KeyEvent &arg )
                 UpdateAllAgentDestinations();
                 mLabelOverlay->setCaption("Simple navigation");
                 mCrosshair->show();
-                mWindow->getViewport(0)->setCamera(mCamera);
+                getRenderWindow()->getViewport(0)->setCamera(mCamera);
         }
     }
 
@@ -719,7 +719,7 @@ bool OgreRecastApplication::keyPressed( const OIS::KeyEvent &arg )
          arg.key == OIS::KC_PGDOWN  ))
         return true;
 
-    return BaseApplication::keyPressed(arg);
+    return true;
 }
 
 bool OgreRecastApplication::keyReleased(const OIS::KeyEvent &arg)
@@ -728,7 +728,7 @@ bool OgreRecastApplication::keyReleased(const OIS::KeyEvent &arg)
     if (arg.key == OIS::KC_W)
         mMoveForwardKeyPressed = false;
 
-    return BaseApplication::keyReleased(arg);
+    return true;
 }
 
 Ogre::SceneNode* OgreRecastApplication::getOrCreateMarker(Ogre::String name, Ogre::String materialName)
@@ -1054,9 +1054,6 @@ void OgreRecastApplication::loadConfig(Ogre::String configFileName)
     try {
         SettingsFileParser sfp = SettingsFileParser(configFileName);
 
-        BaseApplication::RESTORE_CONFIG = sfp.mRestoreConfig;
-        BaseApplication::DISABLE_MOUSE_GRAB = !sfp.mLockMouse;
-
         OgreRecastApplication::DEBUG_DRAW = sfp.mDebugDraw;
         OgreRecastApplication::HUMAN_CHARACTERS = sfp.mHumanChars;
         OgreRecastApplication::OBSTACLES = sfp.mObstacles;
@@ -1109,9 +1106,9 @@ extern "C" {
         else
             app = new OgreRecastApplication();
 
-
-        try {
             app->go();
+        try {
+
         } catch( Ogre::Exception& e ) {
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
             MessageBox( NULL, e.getFullDescription().c_str(), "An exception has occured!", MB_OK | MB_ICONERROR | MB_TASKMODAL);

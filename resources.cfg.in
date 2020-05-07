@@ -1,0 +1,16 @@
+# Resource locations to be added to the 'boostrap' path
+# This also contains the minimum you need to use the Ogre example framework
+[Bootstrap]
+Zip=@OGRE_MEDIA_DIR@/packs/SdkTrays.zip
+
+# Resource locations to be added to the default path
+[General]
+FileSystem=@OGRE_MEDIA_DIR@
+FileSystem=@PROJECT_SOURCE_DIR@/resources
+FileSystem=@PROJECT_SOURCE_DIR@/resources/meshes
+FileSystem=@PROJECT_SOURCE_DIR@/resources/materials
+FileSystem=@PROJECT_SOURCE_DIR@/resources/overlays
+
+FileSystem=@PROJECT_SOURCE_DIR@/resources/materials/terrain
+FileSystem=@PROJECT_SOURCE_DIR@/resources/materials/instancing
+

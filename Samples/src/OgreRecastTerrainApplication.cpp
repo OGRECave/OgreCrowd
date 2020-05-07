@@ -81,9 +81,9 @@ void OgreRecastTerrainApplication::createScene()
     float terrainScaleX = TERRAIN_TILES_X * TERRAIN_TILE_SIZE/2;
     float terrainScaleZ = TERRAIN_TILES_Z * TERRAIN_TILE_SIZE/2;
     float terrainHeightScale = TERRAIN_TILE_SIZE/20 * TERRAIN_HEIGHT_SCALE;
-    mCamera->setPosition(-terrainScaleX/1.897539208, terrainHeightScale/0.667386703, -terrainScaleZ/0.965507253);
+    mCameraNode->setPosition(-terrainScaleX/1.897539208, terrainHeightScale/0.667386703, -terrainScaleZ/0.965507253);
 //    mCamera->setPosition(-3161.99, 866.029, -6214.35);
-    mCamera->setOrientation(Ogre::Quaternion(0.21886, -0.0417, -0.9576, -0.1826));
+    mCameraNode->setOrientation(Ogre::Quaternion(0.21886, -0.0417, -0.9576, -0.1826));
     mCamera->setNearClipDistance(0.1);
     mCamera->setFarClipDistance(50000);
     if (mRoot->getRenderSystem()->getCapabilities()->hasCapability(Ogre::RSC_INFINITE_FAR_PLANE))
@@ -92,7 +92,7 @@ void OgreRecastTerrainApplication::createScene()
     }
 
     // Set viewport color to blue (makes bounding boxes more visible)
-    Ogre::Viewport *vp = mWindow->getViewport(0);
+    Ogre::Viewport *vp = getRenderWindow()->getViewport(0);
     vp->setBackgroundColour(Ogre::ColourValue(13.0/255,221.0/255,229.0/255));
 
 
@@ -463,7 +463,7 @@ bool OgreRecastTerrainApplication::keyPressed( const OIS::KeyEvent &arg )
     if(  arg.key == OIS::KC_O   // There is no door outdoor! :)
       || arg.key == OIS::KC_K   // Walkable geometry works with terrain sample too, the only problem is that
       || arg.key == OIS::KC_I)  //      currently agents are clipped to terrain height.
-        return BaseApplication::keyPressed(arg);
+        return true;
 
     // Use X to test terrain height
     if(arg.key == OIS::KC_X) {

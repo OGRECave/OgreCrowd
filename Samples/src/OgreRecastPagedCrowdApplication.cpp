@@ -72,7 +72,7 @@ OgreRecastPagedCrowdApplication::OgreRecastPagedCrowdApplication()
     , mNavMeshNode(0)
     , mDetourTileCache(0)
     , mDebugEntities()
-    , mTopDownCamera(false)
+    , mTopDownCamera(true)
     , mGoingUp(false)
     , mGoingDown(false)
     , mGoingLeft(false)
@@ -89,8 +89,8 @@ void OgreRecastPagedCrowdApplication::createScene(void)
     mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5f, 0.5f, 0.5f));
     Ogre::Light* light = mSceneMgr->createLight( "MainLight" );
     light->setPosition(20, 80, 50);
-    mCamera->setPosition(-46.3106, 62.3307, 40.7579);
-    mCamera->setOrientation(Ogre::Quaternion(0.903189, -0.247085, - 0.338587, - 0.092626));
+    mCameraNode->setPosition(-46.3106, 62.3307, 40.7579);
+    mCameraNode->setOrientation(Ogre::Quaternion(0.903189, -0.247085, - 0.338587, - 0.092626));
 
     // Create world plane
     Ogre::MeshPtr planeMesh = Ogre::MeshManager::getSingletonPtr()->createPlane("GroundPlane", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
@@ -183,24 +183,6 @@ bool OgreRecastPagedCrowdApplication::frameRenderingQueued(const Ogre::FrameEven
     // Update crowd
     mCrowdManager->update(evt.timeSinceLastFrame);
 
-
-    // Update top-down Camera
-    if(mTopDownCamera) {
-        // build our acceleration vector based on keyboard input composite
-        Ogre::Vector3 accel = Ogre::Vector3::ZERO;
-
-        if(mGoingUp) accel += mCamera->getUp();
-        if(mGoingDown) accel -= mCamera->getUp();
-        if(mGoingLeft) accel -= mCamera->getRight();
-        if(mGoingRight) accel += mCamera->getRight();
-
-        if(!accel.isZeroLength()) {
-            accel.normalise();
-            accel *= (mCameraMan->getTopSpeed()/ 20);
-            mCamera->setPosition(mCamera->getPosition()+accel);
-        }
-    }
-
     // Update debug info panel
     updateDebugInfo();
 
@@ -213,7 +195,7 @@ void OgreRecastPagedCrowdApplication::createFrameListener()
     BaseApplication::createFrameListener();
 
     // CREATE PAGED CROWD DEBUG PANEL
-    Ogre::FontManager::getSingleton().getByName("SdkTrays/Caption")->load();    // Fixes a bug with SDK Trays
+    //Ogre::FontManager::getSingleton().getByName("SdkTrays/Caption")->load();    // Fixes a bug with SDK Trays
     Ogre::StringVector items;
     items.push_back("Total agents");        // 0
     items.push_back("Loaded agents");       // 1
@@ -250,11 +232,11 @@ bool OgreRecastPagedCrowdApplication::keyPressed(const OIS::KeyEvent &arg)
             mCameraMan->setStyle(OgreBites::CS_MANUAL);
             Ogre::Vector3 cameraPos = mCamera->getPosition();
             cameraPos.y = TOPDOWN_CAMERA_HEIGHT;
-            mCamera->setPosition(cameraPos);
-            mCamera->setFixedYawAxis(false);
-            mCamera->setDirection(-Ogre::Vector3::UNIT_Y);
+            mCameraNode->setPosition(cameraPos);
+            mCameraNode->setFixedYawAxis(false);
+            mCameraNode->setDirection(-Ogre::Vector3::UNIT_Y);
         } else {
-            mCamera->setFixedYawAxis(true);
+            mCameraNode->setFixedYawAxis(true);
             mCameraMan->setStyle(OgreBites::CS_FREELOOK);
         }
 
@@ -268,7 +250,7 @@ bool OgreRecastPagedCrowdApplication::keyPressed(const OIS::KeyEvent &arg)
     else if (arg.key == OIS::KC_A || arg.key == OIS::KC_LEFT) mGoingLeft = true;
     else if (arg.key == OIS::KC_D || arg.key == OIS::KC_RIGHT) mGoingRight = true;
 
-    return BaseApplication::keyPressed(arg);
+    return true;
 }
 
 bool OgreRecastPagedCrowdApplication::keyReleased(const OIS::KeyEvent &arg)
@@ -279,5 +261,5 @@ bool OgreRecastPagedCrowdApplication::keyReleased(const OIS::KeyEvent &arg)
     else if (arg.key == OIS::KC_A || arg.key == OIS::KC_LEFT) mGoingLeft = false;
     else if (arg.key == OIS::KC_D || arg.key == OIS::KC_RIGHT) mGoingRight = false;
 
-    return BaseApplication::keyReleased(arg);
+    return true;
 }
