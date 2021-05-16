@@ -201,10 +201,7 @@ protected:
 
 
     std::vector<Ogre::Vector2> mBorderTiles;
-
-#if OGRE_VERSION_MINOR >= 8
     Ogre::InstanceManager* mInstanceManager;
-#endif
 
 };
 

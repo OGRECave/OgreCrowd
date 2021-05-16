@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.4.3)
 project(OgreCrowd)
-find_package(OGRE 1.11 REQUIRED)
+find_package(OGRE REQUIRED CONFIG)
 
 option(BUILD_DEMO "Build demo" ON)
 

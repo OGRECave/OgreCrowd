@@ -38,9 +38,7 @@
 #include "Character.h"
 #include "AnimateableCharacter.h"
 #include "TestCharacter.h"
-#if OGRE_VERSION_MINOR >= 8
 #include "InstancedCharacter.h"
-#endif
 
 
 const Ogre::Real CrowdManager::CROWD_PAGE_UPDATE_DELTA = 1;
@@ -66,9 +64,7 @@ CrowdManager::CrowdManager(OgreDetourTileCache *tileCache, Ogre::SceneManager *s
     , mNbTilesInBorder(0)
     , mAreaDebug(0)
     , mBorderTiles()
-#if OGRE_VERSION_MINOR >= 8
     , mInstanceManager(0)
-#endif
 {
     // Number of tiles filled with agents
     if(mPagedAreaDistance == 0) {
@@ -100,8 +96,6 @@ CrowdManager::CrowdManager(OgreDetourTileCache *tileCache, Ogre::SceneManager *s
     // DetourCrowd component managed by this CrowdManager
     mDetourCrowd = new OgreDetourCrowd(mRecast);        // TODO add option of specifying max crowd size?
 
-
-#if OGRE_VERSION_MINOR >= 8
     if(INSTANCED_CROWD) {
         // Most compatible SM2+ technique
         Ogre::InstanceManager::InstancingTechnique instanceTechnique = Ogre::InstanceManager::ShaderBased;
@@ -112,7 +106,6 @@ CrowdManager::CrowdManager(OgreDetourTileCache *tileCache, Ogre::SceneManager *s
                     Ogre::ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME, instanceTechnique,
                     mCrowdSize); // TODO experiment with batch size
     }
-#endif
 
     initAgents();
 }
@@ -138,13 +131,9 @@ void CrowdManager::initAgents()
                     Ogre::Vector3 position = getRandomPositionInNavmeshTile(x, y);
                     Character *character;
 // TODO make configurable which type of character is exactly instanced (maybe allow keeping sets of different populations)
-#if OGRE_VERSION_MINOR >= 8
                     if(INSTANCED_CROWD) {
                         character = new InstancedCharacter("Character_"+Ogre::StringConverter::toString(nbAgents), mSceneMgr, mDetourCrowd, mInstanceManager, false, position);
                     } else if(HUMAN_CHARACTERS) {
-#else
-                    if(HUMAN_CHARACTERS) {
-#endif
                         character = new AnimateableCharacter("Character_"+Ogre::StringConverter::toString(nbAgents), mSceneMgr, mDetourCrowd, false, position);
                     } else {
                         character = new TestCharacter("Character_"+Ogre::StringConverter::toString(nbAgents), mSceneMgr, mDetourCrowd, position);
@@ -163,13 +152,9 @@ void CrowdManager::initAgents()
     nbAgents++;
     while(nbAgents < mCrowdSize) {
         Character *character;
-#if OGRE_VERSION_MINOR >= 8
         if(INSTANCED_CROWD) {
             character = new InstancedCharacter("Character_"+Ogre::StringConverter::toString(nbAgents), mSceneMgr, mDetourCrowd, mInstanceManager);
         } else if(HUMAN_CHARACTERS) {
-#else
-        if(HUMAN_CHARACTERS) {
-#endif
             character = new AnimateableCharacter("Character_"+Ogre::StringConverter::toString(nbAgents), mSceneMgr, mDetourCrowd);
         } else {
             character = new TestCharacter("Character_"+Ogre::StringConverter::toString(nbAgents), mSceneMgr, mDetourCrowd);
@@ -511,13 +496,9 @@ Ogre::Vector3 CrowdManager::placeAgent(Character* character, int tx, int ty)
     character->load(rndPos);
 
     // Start walking animation at random position to avoid obvious synchronized movement
-#if OGRE_VERSION_MINOR >= 8
     if(INSTANCED_CROWD)
         ((InstancedCharacter*) character)->randomizeAnimationPosition();
     else if(HUMAN_CHARACTERS)
-#else
-    if(HUMAN_CHARACTERS) {
-#endif
         ((AnimateableCharacter*) character)->randomizeAnimationPosition();
 // TODO this code replication is stupid. Fix up character classes with a better inheritance scheme, abstracting out demo specific and reusable classes
 
