@@ -85,11 +85,7 @@ void OgreRecastTerrainApplication::createScene()
 //    mCamera->setPosition(-3161.99, 866.029, -6214.35);
     mCameraNode->setOrientation(Ogre::Quaternion(0.21886, -0.0417, -0.9576, -0.1826));
     mCamera->setNearClipDistance(0.1);
-    mCamera->setFarClipDistance(50000);
-    if (mRoot->getRenderSystem()->getCapabilities()->hasCapability(Ogre::RSC_INFINITE_FAR_PLANE))
-    {
-        mCamera->setFarClipDistance(0);   // enable infinite far clip distance if we can
-    }
+    mCamera->setFarClipDistance(0);   // enable infinite far clip distance
 
     // Set viewport color to blue (makes bounding boxes more visible)
     Ogre::Viewport *vp = getRenderWindow()->getViewport(0);
