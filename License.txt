@@ -1,4 +1,4 @@
-OgreCrowd is made available under the MIT License.
+MIT License
 
 Copyright (c) 2012 Jonas Hauquier
 
