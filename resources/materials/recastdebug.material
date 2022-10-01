@@ -1,27 +1,6 @@
 // Shader material for debugging recast navigation mesh and lines
 
 //////////////////////////////////////////////////////////////////////////////
-
-vertex_program recastdebug_vs cg         
-{
-   source recastdebug.cg
-   entry_point recastdebug_vs
-   profiles arbvp1 vs_2_x
-
-      default_params
-    {
-        param_named_auto wvp worldviewproj_matrix
-      }
-}
-
-fragment_program recastdebug_ps cg         
-{
-   source recastdebug.cg
-   entry_point recastdebug_ps
-   profiles ps_2_x fp40 arbfp1 fp30
-}
-
-
 material recastdebug
 {
    technique
@@ -30,20 +9,12 @@ material recastdebug
        pass
        {
                ambient  0 0 0
-               diffuse  0 0 0
+               diffuse  0 0 0 0.5
                specular 0 0 0 0
-               emissive 0 0 0
+               emissive vertexcolour
                
                scene_blend alpha_blend
 	           depth_write off
-
-               vertex_program_ref recastdebug_vs
-               {
-               }
-
-               fragment_program_ref recastdebug_ps
-               {
-               }
        }
 
    }
