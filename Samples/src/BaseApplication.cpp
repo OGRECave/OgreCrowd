@@ -40,6 +40,9 @@ void BaseApplication::chooseSceneManager(void)
     // Get the SceneManager, in this case a generic one
     mSceneMgr = mRoot->createSceneManager();
     mSceneMgr->addRenderQueueListener(getOverlaySystem());
+    // register our scene with the RTSS
+    auto shadergen = Ogre::RTShader::ShaderGenerator::getSingletonPtr();
+    shadergen->addSceneManager(mSceneMgr);
 }
 //-------------------------------------------------------------------------------------
 void BaseApplication::createCamera(void)
