@@ -74,7 +74,9 @@ void OgreRecastTerrainApplication::createScene()
     lightdir.normalise();
     Ogre::Light* light = mSceneMgr->createLight("MainLight");
     light->setType(Ogre::Light::LT_DIRECTIONAL);
-    light->setDirection(lightdir);
+    auto lnode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+    lnode->attachObject(light);
+    lnode->setDirection(lightdir);
     light->setDiffuseColour(Ogre::ColourValue::White);
     light->setSpecularColour(Ogre::ColourValue(0.4, 0.4, 0.4));
     mSceneMgr->setAmbientLight(Ogre::ColourValue(0.2, 0.2, 0.2));
@@ -290,9 +292,9 @@ void OgreRecastTerrainApplication::createScene()
     Ogre::SceneNode *node = mCharacters[0]->getNode();
     mChaseCam = mSceneMgr->createCamera("AgentFollowCamera");
     mChaseCam->setNearClipDistance(0.1);
-    node->attachObject(mChaseCam);
-    mChaseCam->setPosition(0, mDetourCrowd->getAgentHeight(), mDetourCrowd->getAgentRadius()*4);
-    mChaseCam->pitch(Ogre::Degree(-15));
+    auto chaseNode = node->createChildSceneNode(Ogre::Vector3(0, mDetourCrowd->getAgentHeight(), mDetourCrowd->getAgentRadius()*4));
+    chaseNode->pitch(Ogre::Degree(-15));
+    chaseNode->attachObject(mChaseCam);
     mChaseCam->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
 }
 

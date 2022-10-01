@@ -88,7 +88,7 @@ void OgreRecastPagedCrowdApplication::createScene(void)
     // Basic scene setup
     mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5f, 0.5f, 0.5f));
     Ogre::Light* light = mSceneMgr->createLight( "MainLight" );
-    light->setPosition(20, 80, 50);
+    mSceneMgr->getRootSceneNode()->createChildSceneNode(Ogre::Vector3(20, 80, 50))->attachObject(light);
     mCameraNode->setPosition(-46.3106, 62.3307, 40.7579);
     mCameraNode->setOrientation(Ogre::Quaternion(0.903189, -0.247085, - 0.338587, - 0.092626));
 
@@ -230,7 +230,7 @@ bool OgreRecastPagedCrowdApplication::keyPressed(const OIS::KeyEvent &arg)
 
         if(mTopDownCamera) {
             mCameraMan->setStyle(OgreBites::CS_MANUAL);
-            Ogre::Vector3 cameraPos = mCamera->getPosition();
+            Ogre::Vector3 cameraPos = mCamera->getParentSceneNode()->getPosition();
             cameraPos.y = TOPDOWN_CAMERA_HEIGHT;
             mCameraNode->setPosition(cameraPos);
             mCameraNode->setFixedYawAxis(false);

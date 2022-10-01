@@ -127,7 +127,7 @@ void OgreRecastApplication::createScene(void)
     // Basic scene setup
     mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5f, 0.5f, 0.5f));
     Ogre::Light* light = mSceneMgr->createLight( "MainLight" );
-    light->setPosition(20, 80, 50);
+    mSceneMgr->getRootSceneNode()->createChildSceneNode(Ogre::Vector3(20, 80, 50))->attachObject(light);
     mCameraNode->setPosition(-46.3106, 62.3307, 40.7579);
     mCameraNode->setOrientation(Ogre::Quaternion(0.903189, -0.247085, - 0.338587, - 0.092626));
 
@@ -295,9 +295,9 @@ void OgreRecastApplication::createScene(void)
     Ogre::SceneNode *node = mCharacters[0]->getNode();
     mChaseCam = mSceneMgr->createCamera("AgentFollowCamera");
     mChaseCam->setNearClipDistance(0.1);
-    node->attachObject(mChaseCam);
-    mChaseCam->setPosition(0, mDetourCrowd->getAgentHeight(), mDetourCrowd->getAgentRadius()*4);
-    mChaseCam->pitch(Ogre::Degree(-15));
+    auto chaseNode = node->createChildSceneNode(Ogre::Vector3(0, mDetourCrowd->getAgentHeight(), mDetourCrowd->getAgentRadius()*4));
+    chaseNode->pitch(Ogre::Degree(-15));
+    chaseNode->attachObject(mChaseCam);
     Ogre::Viewport *vp = getRenderWindow()->getViewport(0);
     mChaseCam->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
 }
