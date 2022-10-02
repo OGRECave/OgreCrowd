@@ -12,5 +12,4 @@ FileSystem=@PROJECT_SOURCE_DIR@/resources/materials
 FileSystem=@PROJECT_SOURCE_DIR@/resources/overlays
 
 FileSystem=@PROJECT_SOURCE_DIR@/resources/materials/terrain
-FileSystem=@PROJECT_SOURCE_DIR@/resources/materials/instancing
 
